@@ -7,7 +7,7 @@ import           Test.QuickCheck
 
 spec :: Spec
 spec = do
--- TODO: Add some more rigorous testing for the ciphers
+
   describe "caesar" $ do
     it "applies a Caeser cipher" $ do
       cipher (caesar 25) "helloworld" `shouldBe` "gdkknvnqkc"

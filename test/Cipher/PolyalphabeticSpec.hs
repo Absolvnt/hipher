@@ -7,7 +7,7 @@ import           Test.QuickCheck
 
 spec :: Spec
 spec = do
--- TODO: Add some more rigorous testing for the ciphers
+
   describe "vigenere" $ do
     it "applies a Viginere cipher" $ do
       cipher (vigenere $ fromString "hask") "helloworld" `shouldBe` "oedvvwgbsd"
