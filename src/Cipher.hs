@@ -4,6 +4,7 @@ module Cipher
   , Key
   , letter
   , unLetter
+  , numberOfLetters
   , fromString
   , fromChar
   , toString
@@ -30,8 +31,11 @@ type Message = [Letter]
 
 type Key = [Letter]
 
+numberOfLetters :: Int
+numberOfLetters = 26     -- Latin alphabet
+
 letter :: Int -> Letter
-letter i = Letter $ i `mod` 26
+letter i = Letter $ i `mod` numberOfLetters
 
 unLetter :: Letter -> Int
 unLetter (Letter lt) = lt
