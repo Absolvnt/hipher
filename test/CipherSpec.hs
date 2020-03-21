@@ -15,14 +15,14 @@ spec = do
 
   describe "Letter" $ do
     it "is equal if its inhabitants are equal modulo 26" $ do
-        property $ \x m -> Letter x == Letter (x + 26*m) 
+        property $ \x m -> letter x == letter (x + 26*m) 
     it "is ordered according to its inhabitants modulo 26" $ do
-        zipWith compare [Letter 1, Letter 1, Letter 1] [Letter 25, Letter 26, Letter 27] `shouldBe` [LT, GT, EQ]
+        zipWith compare [letter 1, letter 1, letter 1] [letter 25, letter 26, letter 27] `shouldBe` [LT, GT, EQ]
     context "when printed" $ do
       it "displays the lower-case alphabet for 0-25" $ do 
-          forAll (elements [0..25]) $ \x -> show (Letter x) == show (['a'..'z'] !! x)
+          forAll (elements [0..25]) $ \x -> show (letter x) == show (['a'..'z'] !! x)
       it "displays the same character given a value modulo 26" $ do
-        property $ \x m -> show (Letter x) == show (Letter (x + 26*m))
+        property $ \x m -> show (letter x) == show (letter $ x + 26*m)
     
   describe "fromChar" $ do
     it "gives Nothing when given a non-letter" $ do 
@@ -30,7 +30,7 @@ spec = do
     it "gives Just (0-25) when given a letter" $ do
       forAll (elements letters) $ \c -> isJust $ fromChar c
     it "maps letters to their corresponding number (0 = 'a', ...)" $ do 
-      mapMaybe fromChar ['a'..'z'] `shouldBe` map Letter [0..25]
+      mapMaybe fromChar ['a'..'z'] `shouldBe` map letter [0..25]
 
   describe "fromString" $ do
     it "is just a mappedMaybe version of fromChar (empty test)" $ do
@@ -47,11 +47,13 @@ spec = do
   describe "shift" $ do
     context "shifts a letter any number of places" $ do
       it "forward" $ do
-        toChar (shift 1 $ Letter 1) `shouldBe` 'c'
+        toChar (shift 1 $ letter 1) `shouldBe` 'c'
       it "backwards" $ do     
-        toChar (shift (-1) $ Letter 1) `shouldBe` 'a'
+        toChar (shift (-1) $ letter 1) `shouldBe` 'a'
       it "wrapping around if necessary" $ do
-        toChar (shift 26 $ Letter 1) `shouldBe` 'b'
+        toChar (shift 26 $ letter 1) `shouldBe` 'b'
+
+-- TODO: Add some more rigorous testing for the ciphers
 
   describe "caesar" $ do
     it "applies a Caeser cipher" $ do
