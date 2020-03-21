@@ -33,17 +33,9 @@ spec = do
     it "maps letters to their corresponding number (0 = 'a', ...)" $ do 
       mapMaybe fromChar ['a'..'z'] `shouldBe` map letter [0..25]
 
-  describe "fromString" $ do
-    it "is just a mappedMaybe version of fromChar (empty test)" $ do
-      True 
-
   describe "toChar" $ do
     it "is the inverse of fromChar" $ do
       forAll (elements letters) $ \c -> toLower c == toChar (fromJust $ fromChar c)
-
-  describe "toString" $ do
-    it "is just a mapped version of toChar (empty test)" $ do
-      True 
 
   describe "shift" $ do
     context "shifts a letter any number of places" $ do

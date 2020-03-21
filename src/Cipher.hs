@@ -8,6 +8,7 @@ module Cipher
   , fromChar
   , toString
   , toChar
+  , cipher
   , shift
   ) where
 
@@ -50,6 +51,9 @@ toString = map toChar
 
 toChar :: Letter -> Char
 toChar = chr . (+ ord 'a') . unLetter
+
+cipher :: (Message -> Message) -> String -> String
+cipher cf = toString . cf . fromString
 
 -- move into more specific module?
 shift :: Int -> Letter -> Letter
