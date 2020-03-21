@@ -1,5 +1,7 @@
 module Cipher
   ( Letter
+  , Message
+  , Key
   , letter
   , unLetter
   , fromString
@@ -7,13 +9,9 @@ module Cipher
   , toString
   , toChar
   , shift
-  , caesar
-  , uncaesar
-  , vigenere
-  , unvigenere
   ) where
 
-import           Data.Char
+import           Data.Char  (chr, ord, toLower)
 import           Data.Maybe
 
 newtype Letter =
@@ -31,14 +29,12 @@ type Message = [Letter]
 
 type Key = [Letter]
 
--- (DE)CONSTRUCTORS
 letter :: Int -> Letter
 letter i = Letter $ i `mod` 26
 
 unLetter :: Letter -> Int
 unLetter (Letter lt) = lt
 
--- UTILS
 fromString :: String -> Message
 fromString = mapMaybe fromChar
 
@@ -55,20 +51,6 @@ toString = map toChar
 toChar :: Letter -> Char
 toChar = chr . (+ ord 'a') . unLetter
 
+-- move into more specific module?
 shift :: Int -> Letter -> Letter
 shift x lt = letter $ x + unLetter lt
-
--- CIPHERS
-caesar :: Int -> Message -> Message
-caesar = map . shift
-
-uncaesar :: Int -> Message -> Message
-uncaesar = caesar . negate 
-
-vigenere :: Key -> Message -> Message
-vigenere = zipWith f . cycle
-  where
-    f k = shift $ unLetter k
-
-unvigenere :: Key -> Message -> Message
-unvigenere = vigenere . map (letter . negate . unLetter)

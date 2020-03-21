@@ -1,6 +1,6 @@
 name:                hipher
 version:             0.1.0.0
--- synopsis:
+synopsis:            A classical cryptography library
 -- description:
 homepage:            https://github.com/Absolvnt/hipher
 license:             BSD3
@@ -15,6 +15,11 @@ extra-source-files:  README.md
 
 library
   exposed-modules:     Cipher
+                       Cipher.Polyalphabetic
+                       Cipher.Polybius
+                       Cipher.Square
+                       Cipher.Substitution
+                       Cipher.Transposition
   ghc-options:         -Wall -Werror -fwarn-tabs
   hs-source-dirs:      src
   default-language:    Haskell2010
@@ -29,6 +34,11 @@ test-suite spec
                      , QuickCheck
                      , hipher
   other-modules:       CipherSpec
+                       Cipher.PolyalphabeticSpec
+                       Cipher.PolybiusSpec
+                       Cipher.SquareSpec
+                       Cipher.SubstitutionSpec
+                       Cipher.TranspositionSpec
   default-language:    Haskell2010
 
 -- executable cipher

@@ -1,13 +1,14 @@
 module CipherSpec where
 
 import           Cipher
+import           Data.Char       (toLower)
+import           Data.List       ((\\))
 import           Data.Maybe
 import           Test.Hspec
 import           Test.QuickCheck
-import Data.List ((\\))
-import Data.Char (toLower)
 
 letters = ['A' .. 'Z'] ++ ['a' .. 'z'] :: [Char]
+
 nonletters = [minBound .. maxBound] \\ letters :: [Char]
 
 spec :: Spec
@@ -52,21 +53,3 @@ spec = do
         toChar (shift (-1) $ letter 1) `shouldBe` 'a'
       it "wrapping around if necessary" $ do
         toChar (shift 26 $ letter 1) `shouldBe` 'b'
-
--- TODO: Add some more rigorous testing for the ciphers
-
-  describe "caesar" $ do
-    it "applies a Caeser cipher" $ do
-      toString (caesar 25 $ fromString "helloworld") `shouldBe` "gdkknvnqkc" 
-
-  describe "uncaesar" $ do
-    it "is the inverse (decipher) of caesar" $ do
-      toString (uncaesar 25 $ fromString "gdkknvnqkc") `shouldBe` "helloworld" 
-
-  describe "vigenere" $ do
-    it "applies a Viginere cipher" $ do
-      toString (vigenere (fromString "hask") $ fromString "helloworld") `shouldBe` "oedvvwgbsd"
-
-  describe "unvigenere" $ do
-    it "is the inverse (decipher) of vigenere" $ do
-      toString (unvigenere (fromString "hask") $ fromString "oedvvwgbsd") `shouldBe` "helloworld"  
