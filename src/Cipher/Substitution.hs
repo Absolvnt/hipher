@@ -1,6 +1,7 @@
 module Cipher.Substitution where
 
-import           Cipher     (Message, letter, numberOfLetters, shift, unLetter)
+import           Cipher     (Message, letter, numberOfLetters, shift, shiftWith,
+                             unLetter)
 import           Data.List  (elemIndex)
 import           Data.Maybe (fromJust)
 
@@ -31,14 +32,11 @@ alphabetCoprime a
   | otherwise = Nothing
 
 affine :: AlphabetCoprime -> Int -> Message -> Message
-affine (AlphabetCoprime a) b = map (letter . conv . unLetter)
-  where
-    conv x = a * x + b
+affine (AlphabetCoprime a) b = map . shiftWith $ \x -> a * x + b
 
 unaffine :: AlphabetCoprime -> Int -> Message -> Message
-unaffine (AlphabetCoprime a) b = map (letter . conv . unLetter)
+unaffine (AlphabetCoprime a) b = map . shiftWith $ \x -> aInv * (x - b)
   where
-    conv x = aInv * (x - b)
     aInv = modInv a numberOfLetters
     modInv a' m' =
       fromJust . elemIndex 1 $ map (\n -> a' * n `mod` m') [0 .. m' - 1]

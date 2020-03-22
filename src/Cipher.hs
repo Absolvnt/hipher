@@ -11,6 +11,7 @@ module Cipher
   , toChar
   , cipher
   , shift
+  , shiftWith
   ) where
 
 import           Data.Char  (chr, ord, toLower)
@@ -61,4 +62,7 @@ cipher cf = toString . cf . fromString
 
 -- move into more specific module?
 shift :: Int -> Letter -> Letter
-shift x lt = letter $ x + unLetter lt
+shift = shiftWith . (+)
+
+shiftWith :: (Int -> Int) -> Letter -> Letter
+shiftWith f = letter . f . unLetter

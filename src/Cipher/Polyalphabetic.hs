@@ -1,6 +1,6 @@
 module Cipher.Polyalphabetic where
 
-import           Cipher (Key, Message, letter, shift, unLetter)
+import           Cipher (Key, Message, shift, shiftWith, unLetter)
 
 vigenere :: Key -> Message -> Message
 vigenere = zipWith f . cycle
@@ -8,4 +8,4 @@ vigenere = zipWith f . cycle
     f k = shift $ unLetter k
 
 unvigenere :: Key -> Message -> Message
-unvigenere = vigenere . map (letter . negate . unLetter)
+unvigenere = vigenere . map (shiftWith negate)
