@@ -1,7 +1,7 @@
 module CipherSpec where
 
 import           Cipher
-import           Data.Char       (toLower)
+import           Data.Char       (toUpper)
 import           Data.List       ((\\))
 import           Data.Maybe
 import           Test.Hspec
@@ -20,8 +20,8 @@ spec = do
     it "is ordered according to its inhabitants modulo 26" $ do
         zipWith compare [letter 1, letter 1, letter 1] [letter 25, letter 26, letter 27] `shouldBe` [LT, GT, EQ]
     context "when printed" $ do
-      it "displays the lower-case alphabet for 0-25" $ do 
-          forAll (elements [0..25]) $ \x -> show (letter x) == show (['a'..'z'] !! x)
+      it "displays the upper-case alphabet for 0-25" $ do 
+          forAll (elements [0..25]) $ \x -> show (letter x) == show (['A'..'Z'] !! x)
       it "displays the same character given a value modulo 26" $ do
         property $ \x m -> show (letter x) == show (letter $ x + 26*m)
     
@@ -30,18 +30,18 @@ spec = do
       forAll (elements nonletters) $ \c -> isNothing $ fromChar c
     it "gives Just (0-25) when given a letter" $ do
       forAll (elements letters) $ \c -> isJust $ fromChar c
-    it "maps letters to their corresponding number (0 = 'a', ...)" $ do 
-      mapMaybe fromChar ['a'..'z'] `shouldBe` map letter [0..25]
+    it "maps letters to their corresponding number (0 = 'A', ...)" $ do 
+      mapMaybe fromChar ['A'..'Z'] `shouldBe` map letter [0..25]
 
   describe "toChar" $ do
     it "is the inverse of fromChar" $ do
-      forAll (elements letters) $ \c -> toLower c == toChar (fromJust $ fromChar c)
+      forAll (elements letters) $ \c -> toUpper c == toChar (fromJust $ fromChar c)
 
   describe "shift" $ do
     context "shifts a letter any number of places" $ do
       it "forward" $ do
-        toChar (shift 1 $ letter 1) `shouldBe` 'c'
+        toChar (shift 1 $ letter 1) `shouldBe` 'C'
       it "backwards" $ do     
-        toChar (shift (-1) $ letter 1) `shouldBe` 'a'
+        toChar (shift (-1) $ letter 1) `shouldBe` 'A'
       it "wrapping around if necessary" $ do
-        toChar (shift 26 $ letter 1) `shouldBe` 'b'
+        toChar (shift 26 $ letter 1) `shouldBe` 'B'

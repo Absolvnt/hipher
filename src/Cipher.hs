@@ -12,9 +12,11 @@ module Cipher
   , cipher
   , shift
   , shiftWith
+  , tabulaRecta
+  , tabulaRectaInv
   ) where
 
-import           Data.Char  (chr, ord, toLower)
+import           Data.Char  (chr, ord, toUpper)
 import           Data.Maybe
 
 newtype Letter =
@@ -33,7 +35,7 @@ type Message = [Letter]
 type Key = [Letter]
 
 numberOfLetters :: Int
-numberOfLetters = 26     -- Latin alphabet
+numberOfLetters = 26 -- Latin alphabet
 
 letter :: Int -> Letter
 letter i = Letter $ i `mod` numberOfLetters
@@ -46,7 +48,7 @@ fromString = mapMaybe fromChar
 
 fromChar :: Char -> Maybe Letter
 fromChar ch
-  | ch `elem` letters = Just . letter $ ord (toLower ch) - ord 'a'
+  | ch `elem` letters = Just . letter $ ord (toUpper ch) - ord 'A'
   | otherwise = Nothing
   where
     letters = ['A' .. 'Z'] ++ ['a' .. 'z']
@@ -55,7 +57,7 @@ toString :: Message -> String
 toString = map toChar
 
 toChar :: Letter -> Char
-toChar = chr . (+ ord 'a') . unLetter
+toChar = chr . (+ ord 'A') . unLetter
 
 cipher :: (Message -> Message) -> String -> String
 cipher cf = toString . cf . fromString
@@ -66,3 +68,9 @@ shift = shiftWith . (+)
 
 shiftWith :: (Int -> Int) -> Letter -> Letter
 shiftWith f = letter . f . unLetter
+
+tabulaRecta :: Letter -> Letter -> Letter
+tabulaRecta = shift . unLetter
+
+tabulaRectaInv :: Letter -> Letter -> Letter
+tabulaRectaInv = shift . negate . unLetter

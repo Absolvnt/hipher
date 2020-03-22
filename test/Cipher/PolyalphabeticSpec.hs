@@ -10,8 +10,8 @@ spec = do
 
   describe "vigenere" $ do
     it "applies a Viginere cipher" $ do
-      cipher (vigenere $ fromString "hask") "helloworld" `shouldBe` "oedvvwgbsd"
+      cipher (vigenere $ fromString "HASK") "HELLOWORLD" `shouldBe` "OEDVVWGBSD"
       
   describe "unvigenere" $ do
     it "is the inverse (decipher) of vigenere" $ do
-      cipher (unvigenere $ fromString "hask") "oedvvwgbsd" `shouldBe` "helloworld"  
+      cipher (unvigenere $ fromString "HASK") "OEDVVWGBSD" `shouldBe` "HELLOWORLD"  

@@ -1,11 +1,10 @@
 module Cipher.Polyalphabetic where
 
-import           Cipher (Key, Message, shift, shiftWith, unLetter)
+import           Cipher (Key, Message, tabulaRecta,
+                         tabulaRectaInv)
 
 vigenere :: Key -> Message -> Message
-vigenere = zipWith f . cycle
-  where
-    f k = shift $ unLetter k
+vigenere = zipWith tabulaRecta . cycle
 
 unvigenere :: Key -> Message -> Message
-unvigenere = vigenere . map (shiftWith negate)
+unvigenere = zipWith tabulaRectaInv . cycle

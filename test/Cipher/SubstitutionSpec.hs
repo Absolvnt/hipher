@@ -10,8 +10,8 @@ spec = do
 
   describe "caesar" $ do
     it "applies a Caeser cipher" $ do
-      cipher (caesar 25) "helloworld" `shouldBe` "gdkknvnqkc"
+      cipher (caesar 25) "HELLOWORLD" `shouldBe` "GDKKNVNQKC"
       
   describe "uncaesar" $ do
     it "is the inverse (decipher) of caesar" $ do
-      cipher (uncaesar 25) "gdkknvnqkc" `shouldBe` "helloworld"
+      cipher (uncaesar 25) "GDKKNVNQKC" `shouldBe` "HELLOWORLD"
